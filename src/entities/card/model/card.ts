@@ -1,4 +1,4 @@
-import { rankNumericValueDictionary } from "@/shared";
+import {frenchPack} from "@/shared";
 
 interface ICardProps {
   id: string;
@@ -23,8 +23,7 @@ export class Card {
   }
 
   public convertRankToNumericValue(trump: CardSuit) {
-    // @ts-ignore
-    let numericValue = rankNumericValueDictionary[this.rank] || 1;
+    let numericValue = frenchPack.findIndex(el => el === this.rank) || 1;
     if (this.suit === trump) {
       numericValue += 1000;
     }
