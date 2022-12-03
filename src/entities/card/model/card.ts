@@ -1,32 +1,22 @@
-import {frenchPack} from "@/shared";
-
 interface ICardProps {
-  id: string;
-  rank: CardRank;
-  suit: CardSuit;
+	id: string;
+	rank: CardRank;
+	suit: CardSuit;
 }
 
 export class Card {
-  id: string;
-  rank: string;
-  suit: string;
+	id: string;
+	rank: CardRank;
+	suit: CardSuit;
 
-  private constructor(props: ICardProps) {
-    this.id = props.id;
-    this.rank = props.rank;
-    this.suit = props.suit;
-  }
+	private constructor(props: ICardProps) {
+		this.id = props.id;
+		this.rank = props.rank;
+		this.suit = props.suit;
+	}
 
-  public static create(props: ICardProps) {
-    const instance = new Card(props);
-    return instance;
-  }
-
-  public convertRankToNumericValue(trump: CardSuit) {
-    let numericValue = frenchPack.findIndex(el => el === this.rank) || 1;
-    if (this.suit === trump) {
-      numericValue += 1000;
-    }
-    return numericValue;
-  }
+	public static create(props: ICardProps) {
+		const instance = new Card(props);
+		return instance;
+	}
 }

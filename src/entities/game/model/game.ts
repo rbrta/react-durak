@@ -1,26 +1,38 @@
-import {Entity} from "@/shared";
+import { Card } from "entities/card";
+import { getRandomIntegerSequence } from "shared/api/game";
+import { Logger } from "shared/lib";
 
-interface IGame {
-    online: boolean;
-    firstPlayerId: string;
-    secondPlayedId?: string;
-    tramp: CardSuit;
-    count: CardCount;
-    deck: string[];
+interface IGameProps {
+	online: boolean;
+	count: CardCount;
 }
 
-export class Game extends Entity<IGame> {
-    private constructor(game: IGame) {
-        super(game);
-    }
+export class Game {
+	online: boolean;
+	playerIds: string[] = [];
+	tramp: CardSuit;
+	deck: Card[];
+	static logger: Logger = new Logger();
 
-    public static create(game: IGame) {
-        const instance = new Game(game);
-        return instance;
-    }
+	private constructor(game: IGameProps, deck: Card[]) {
+		this.online = game.online;
+		this.deck = deck;
+		this.tramp = "HEARTS";
+	}
 
-    public static createDeck(count: CardCount) {
-        if (count === 52) {
-        }
-    }
+	public static async create(game: IGameProps) {
+		const deck = await Game.createDeck(game.count);
+		return new Game(game, deck);
+	}
+
+	private static async createDeck(count: CardCount = 36): Promise<Card[]> {
+		try {
+			const sequence = await getRandomIntegerSequence(count);
+			alert(sequence);
+			return [];
+		} catch (error) {
+			this.logger.catchError(error);
+			return [];
+		}
+	}
 }
